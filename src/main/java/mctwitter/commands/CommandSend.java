@@ -48,7 +48,7 @@ public class CommandSend extends CommandBase{
 	}
 	
 	public void placeTweet(EntityPlayer player, String tweet){
-		try{			
+		try{
 			TwitterHelper.placeTweet(tweet);
 		}catch (NumberFormatException e){
 			e.printStackTrace();

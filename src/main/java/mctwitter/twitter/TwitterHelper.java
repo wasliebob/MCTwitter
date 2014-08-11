@@ -1,15 +1,13 @@
 package mctwitter.twitter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.util.EnumChatFormatting;
-
 import mctwitter.helpers.FileHelper;
-
-import twitter4j.Query;
-import twitter4j.QueryResult;
+import net.minecraft.util.EnumChatFormatting;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
@@ -45,5 +43,20 @@ public class TwitterHelper {
 	    twitter.setOAuthAccessToken(accessToken);
 		
 	    twitter.updateStatus(tweet);
+	}
+	
+	public static void placeScreen(File file) throws Exception{
+		TwitterFactory factory = new TwitterFactory();
+		AccessToken accessToken = Auth.loadAccessToken(Integer.parseInt(FileHelper.getPin()));
+	    Twitter twitter = factory.getInstance();
+	    
+	    String consumerKey = "mpqrPi60iFySt3zjST0mNImRZ";
+		String consumerSecret = "lUWaHnhZZmrKK75wBBfsYhJKjMEFlqdnhvIT1dzzZ1MRjKzLO6";
+		twitter.setOAuthConsumer(consumerKey, consumerSecret);	    
+	    twitter.setOAuthAccessToken(accessToken);
+	    
+	    StatusUpdate stat = new StatusUpdate(null);
+	    stat.setMedia(new File(FileHelper.getScreenshotLocation() + file.getName()));
+	    twitter.updateStatus(stat);
 	}
 }

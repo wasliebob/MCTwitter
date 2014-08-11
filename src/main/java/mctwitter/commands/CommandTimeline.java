@@ -26,8 +26,9 @@ public class CommandTimeline extends CommandBase{
 		if(sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;
 			if(array.length > 0){
-				if(array[0] != null)
+				if(array[0] != null){
 					view(player, array);
+				}
 			}else{
 				sendMessage(player, EnumChatFormatting.RED + "/timeline <amount of tweets>");
 			}

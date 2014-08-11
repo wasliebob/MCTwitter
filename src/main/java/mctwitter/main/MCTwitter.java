@@ -29,6 +29,8 @@ public class MCTwitter {
     	proxy.load();
     	configLocation = event.getModConfigurationDirectory().toString();
     	Config.loadConfig(event);
+    	FileHelper.createMainFolder();
+
     	if(!FileHelper.tokenFileExists() || !FileHelper.pinFileExists())
     		Auth.setup();
     	else if(FileHelper.tokenFileExists() && FileHelper.pinFileExists()){
@@ -37,20 +39,14 @@ public class MCTwitter {
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event){
-
-    }
+    public void init(FMLInitializationEvent event){}
     
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event) throws Exception{
-    	if(FileHelper.tokenFileExists() && FileHelper.pinFileExists()){
-    		Auth.auth();
-    	}
-    }
+    public void postInit(FMLPostInitializationEvent event) throws Exception{}
 
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event){
-    	 event.registerServerCommand(new CommandTimeline());
-    	 event.registerServerCommand(new CommandSend());
+    	event.registerServerCommand(new CommandTimeline());
+    	event.registerServerCommand(new CommandSend());
     }
 }

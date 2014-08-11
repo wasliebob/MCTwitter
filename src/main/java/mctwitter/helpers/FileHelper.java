@@ -24,6 +24,25 @@ public class FileHelper{
 		}
 	}
 	
+	public static void createMainFolder() {
+		File file;
+		try{
+			file = new File(MCTwitter.configLocation + getSlash() + "MCTwitter" + getSlash());
+			if(!file.exists())
+				file.mkdir();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static File getFileLocation(){
+		return new File(MCTwitter.configLocation + getSlash() + "MCTwitter" + getSlash());
+	}
+	
+	public static String getScreenshotLocation(){
+		return MCTwitter.configLocation + getSlash() + "MCTwitter" + getSlash() + "screenshots" + getSlash();
+	}
+	
 	public static void createPinFile(String pin){
 		String fileName = "twitterPin";
 		String extension = "pin";
