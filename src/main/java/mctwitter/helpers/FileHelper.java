@@ -1,9 +1,14 @@
 package mctwitter.helpers;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import mctwitter.main.MCTwitter;
@@ -41,6 +46,24 @@ public class FileHelper{
 	
 	public static String getScreenshotLocation(){
 		return MCTwitter.configLocation + getSlash() + "MCTwitter" + getSlash() + "screenshots" + getSlash();
+	}
+	
+	public static void createEmptyPinFile(){
+		String fileName = "twitterPin";
+		String extension = "pin";
+		
+		File file;
+		try {
+			file = new File(MCTwitter.configLocation + getSlash() + fileName + "." + extension);
+			file.createNewFile();
+			PrintWriter writer = new PrintWriter(MCTwitter.configLocation + getSlash() + fileName + "." + extension, "UTF-8");
+			
+			writer.println("PIN:");
+
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void createPinFile(String pin){

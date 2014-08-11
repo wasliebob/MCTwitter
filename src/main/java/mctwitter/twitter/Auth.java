@@ -14,43 +14,27 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-public class Auth {
-	public static void setup() throws Exception{
-	    Twitter twitter = TwitterFactory.getSingleton();
-	    
-	    String consumerKey = "mpqrPi60iFySt3zjST0mNImRZ";
-	  	String consumerSecret = "lUWaHnhZZmrKK75wBBfsYhJKjMEFlqdnhvIT1dzzZ1MRjKzLO6";
-	  	twitter.setOAuthConsumer(consumerKey, consumerSecret);
-	  	
-	    RequestToken requestToken = twitter.getOAuthRequestToken();
-	    AccessToken accessToken = null;
-    	GuiPin gui = new GuiPin(requestToken.getAuthorizationURL());
-    	gui.setSize(575, 70);
-    	gui.setVisible(true);
-	    while (null == accessToken) {
-	    	WebHelper.openURL(requestToken.getAuthorizationURL());
-	    	
-	    	String pin = gui.pin;
-	    	while(pin == null){
-	    		pin = gui.pin;
-	    	}
-	    	try{
-	    		if(pin.length() > 0){
-	    			accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-	    		}else{
-	    			accessToken = twitter.getOAuthAccessToken();
-	    		}
-	    	}catch (TwitterException te) {
-	    		if(401 == te.getStatusCode()){
-	    			System.out.println("Unable to get the access token.");
-	    		}else{
-	    			te.printStackTrace();
-	    		}
-	    	}
-	    }
-	    FileHelper.createPinFile(gui.pin);
-	    FileHelper.createTokenFile(accessToken.getToken(), accessToken.getTokenSecret());
-	    
+public class Auth {	
+	public static void setup(String pin, Twitter twitter, RequestToken requestToken) throws Exception{
+		AccessToken accessToken = null;
+		while(accessToken == null){
+			try{
+				if(pin.length() > 0){
+					accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+				}else{
+					accessToken = twitter.getOAuthAccessToken();
+				}
+			}catch (TwitterException te){
+				if(401 == te.getStatusCode()){
+					System.out.println("Unable to get the access token.");
+				}else{
+					te.printStackTrace();
+				}
+			}
+		}
+		FileHelper.createPinFile(pin);
+		FileHelper.createTokenFile(accessToken.getToken(), accessToken.getTokenSecret());
+		    
 		Auth.auth();
 	}
 	

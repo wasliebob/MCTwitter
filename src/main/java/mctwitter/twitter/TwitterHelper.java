@@ -59,4 +59,23 @@ public class TwitterHelper {
 	    stat.setMedia(new File(FileHelper.getScreenshotLocation() + file.getName()));
 	    twitter.updateStatus(stat);
 	}
+	
+	public static ArrayList<String> getNotifications(int number) throws Exception{
+		TwitterFactory factory = new TwitterFactory();
+		AccessToken accessToken = Auth.loadAccessToken(Integer.parseInt(FileHelper.getPin()));
+	    Twitter twitter = factory.getInstance();
+	    
+	    String consumerKey = "mpqrPi60iFySt3zjST0mNImRZ";
+		String consumerSecret = "lUWaHnhZZmrKK75wBBfsYhJKjMEFlqdnhvIT1dzzZ1MRjKzLO6";
+		twitter.setOAuthConsumer(consumerKey, consumerSecret);	    
+	    twitter.setOAuthAccessToken(accessToken);
+		
+	    ArrayList<String> tw = new ArrayList<String>();
+
+		List<Status> tweets = twitter.getMentionsTimeline();
+		
+		for(int i = 0; i < number; i++)
+			tw.add(EnumChatFormatting.AQUA + tweets.get(i).getUser().getScreenName() + ": " + EnumChatFormatting.WHITE + tweets.get(i).getText());
+		return tw;
+	}
 }
